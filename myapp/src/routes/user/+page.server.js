@@ -3,11 +3,10 @@
 export async function load ({ cookies }) {
     if(!cookies.get("UUID")) {
         return {
-            data: {
-                noCookie: "no"
-            }
+            cookie: false
         }
     }
+
     console.log(cookies.get("UUID"))
     const res = await fetch(`http://localhost:8080/api/${cookies.get("UUID")}`, {
         method: "GET",
@@ -19,6 +18,7 @@ export async function load ({ cookies }) {
     }).then(res => res.json());
     console.log(res)
     return {
-        data: res
+        data: res,
+        cookie: true
     }
 }
