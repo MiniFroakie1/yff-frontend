@@ -1,10 +1,10 @@
 <script>
     import { goto } from "$app/navigation";
-    import { browser } from "$app/environment";
     import {onMount} from "svelte";
     export let data;
+
     onMount(async () => {
-        if(await data.data.noCookie) {
+        if(!await data.cookie) {
             return  goto('/login?back=user')
         }
     })
