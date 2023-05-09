@@ -1,7 +1,21 @@
 <script>
     import { enhance } from "$app/forms";
     import {browser} from "$app/environment";
+    import {onMount} from "svelte";
+    import {goto} from "$app/navigation";
+
     export let form;
+    export let data;
+
+    onMount(async () => {
+        let URLParams = new URLSearchParams(window.location.search);
+
+        console.log(data)
+
+        if(data.cookie) {
+            return  goto(`/${URLParams.get('back') ?? ''}`);
+        }
+    })
 </script>
 
 <div id="main">

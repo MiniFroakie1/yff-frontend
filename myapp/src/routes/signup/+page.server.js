@@ -27,3 +27,14 @@ export const actions = {
         }
     }
 }
+
+export async function load ({ cookies }) {
+    if(!cookies.get("UUID")) {
+        return {
+            cookie: false
+        }
+    }
+    return {
+        cookie: true
+    }
+}
