@@ -1,25 +1,28 @@
 <script>
     import { enhance } from "$app/forms";
+    import {browser} from "$app/environment";
     export let form;
 </script>
 
 <div id="main">
-    <form method="post" use:enhance={() => {
-             return async ({ result }) => {
-            console.log(result.data.end);
-            window.location.href = `/${result.data.end ?? ""}`
-        }
-    }}>
-        <h2>Login</h2>
-        <input type="email" name="email" placeholder="Email" value={form?.email ?? ''} required /><br>
-        <input type="password" name="password" placeholder="Password" value={form?.password ?? ''} required /><br>
-        <p>
-            <button>Submit</button>
-            <button><a href="/signup?back={new URLSearchParams(window.location.search).get('back')}">Signup</a></button>
-        </p>
-    </form>
-    {#if form?.success}
-        { window.location.href = '/'}
+    {#if browser}
+        <form method="post" use:enhance={() => {
+                 return async ({ result }) => {
+                console.log(result.data.end);
+                window.location.href = `/${result.data.end ?? ""}`
+            }
+        }}>
+            <h2>Login</h2>
+            <input type="email" name="email" placeholder="Email" value={form?.email ?? ''} required /><br>
+            <input type="password" name="password" placeholder="Password" value={form?.password ?? ''} required /><br>
+            <p>
+                <button>Submit</button>
+                <button><a href="/signup?back={new URLSearchParams(window.location.search).get('back')}">Signup</a></button>
+            </p>
+        </form>
+        {#if form?.success}
+            { window.location.href = '/'}
+        {/if}
     {/if}
 </div>
 

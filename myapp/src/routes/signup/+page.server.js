@@ -1,8 +1,8 @@
 /** @type {import('./$types').Action} */
 export const actions = {
     default: async ({ request, url, cookies }) => {
+        console.log("yay")
         const formData = await request.formData();
-        console.log(formData);
 
         let UUID = await fetch('http://localhost:8080/api/signup', {
             method: "POST",
@@ -18,8 +18,10 @@ export const actions = {
             }
         }).then(res => res.json());
         if(UUID) {
+            console.log("yay2")
             cookies.set("UUID", UUID[0])
             return  {
+                success: true,
                 end: url.searchParams.get("back"),
             }
         }
