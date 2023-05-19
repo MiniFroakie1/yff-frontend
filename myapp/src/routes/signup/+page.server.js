@@ -1,7 +1,10 @@
+import nodemailer from "nodemailer";
+import Verification from "$lib/emails/Verification.svelte";
+import { render } from "svelte-email";
+
 /** @type {import('./$types').Action} */
 export const actions = {
     default: async ({ request, url, cookies }) => {
-        console.log("yay")
         const formData = await request.formData();
 
         let UUID = await fetch('http://localhost:8080/api/signup', {
@@ -18,8 +21,33 @@ export const actions = {
             }
         }).then(res => res.json());
         if(UUID) {
-            console.log("yay2")
-            cookies.set("UUID", UUID[0])
+            const transporter = nodemailer.createTransport({
+                host: 'smtp.ethereal.email',
+                port: 587,
+                secure: false,
+                auth: {
+                    user: 'my_user',
+                    pass: 'my_password'
+                }
+            });
+
+            const emailHtml = render({
+                component: Verification,
+                props: {
+                    name: formData.get("name")
+                }
+            });
+
+            const options = {
+                from: 'noreply@example.com',
+                to: formData.get("email"),
+                subject: 'ACTION REQUIRED: Confirm Your Email',
+                html: emailHtml
+            }
+
+            transporter.sendMail(options)
+
+            cookies.set("UUID", UUID[0]);
             return  {
                 success: true,
                 end: url.searchParams.get("back"),
