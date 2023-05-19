@@ -1,8 +1,8 @@
 <script>
     import { enhance } from "$app/forms";
-    import {goto} from "$app/navigation";
-    import {browser} from "$app/environment";
-    import {onMount} from "svelte";
+    import { goto } from "$app/navigation";
+    import { browser } from "$app/environment";
+    import { onMount } from "svelte";
 
     export let form;
     export let data;
